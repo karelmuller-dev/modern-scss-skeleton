@@ -1,0 +1,18 @@
+/*
+  Modern SCSS Skeleton v1.0.0
+  https://github.com/karelmuller-dev/modern-scss-skeleton
+  Last updated: 2026-10-20
+  Author: Karel Műller
+*/
+
+@use "sass:meta";
+@charset "utf-8";
+@layer base, layout, components, pages, vendors, development;
+
+@include meta.load-css("_base/base");
+@include meta.load-css("_layout/layout");
+@include meta.load-css("_components/components");
+@include meta.load-css("_pages/pages");
+@include meta.load-css("_vendors/vendors");
+@include meta.load-css("_development/development");
+@include meta.load-css("print");

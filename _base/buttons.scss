@@ -1,0 +1,29 @@
+@use "../_abstracts/abstracts" as *;
+
+.btn {
+  @include transition(all);
+
+  & {
+    display: inline-flex;
+    text-decoration: none;
+  }
+
+  &:hover {
+
+  }
+
+  &:focus-within {
+
+  }
+
+  &:not(:last-child) {
+
+  }
+}
+
+.buttons {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  max-width: none;
+}

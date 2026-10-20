@@ -1,0 +1,7 @@
+.wysiwyg-content {
+  display: flow-root; /* clear floating */
+
+  li {
+    text-wrap: pretty;
+  }
+}

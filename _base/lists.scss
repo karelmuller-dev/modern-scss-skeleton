@@ -1,0 +1,50 @@
+:where(ul, ol) {
+  list-style-type: "";
+}
+
+:where(li) {
+  position: relative;
+}
+
+:where(.wysiwyg-content) {
+  ul,
+  ol {
+    ul,
+    ol {
+      margin-block: 1rem;
+      margin-inline: 0 1rem;
+    }
+  }
+
+  li {
+    margin-inline-start: 1em;
+    padding-inline-start: 1rem;
+    text-wrap: pretty;
+
+    &::marker {
+      font-weight: 700;
+    }
+
+    &:not(:last-of-type) {
+
+    }
+  }
+
+  ul {
+    li {
+      &::marker {
+        content: "—";
+      }
+    }
+  }
+
+  ol {
+    counter-reset: my-list-counter;
+
+    > li {
+      &::marker {
+        content: counter(list-item) ".";
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+/* Highlighting accessibility and semantic errors in HTML */
+
+$debug-outline-error: .25rem solid oklch(62.8% 0.258 29.23);
+$debug-outline-alert: .25rem solid oklch(79.27% 0.171 70.67);
+
+/* highlight HTML element with invalid value for lang attribute */
+&:not([lang]),
+&[lang=""] {
+  outline: $debug-outline-error;
+}
+
+/* highlight images missing alt text */
+img:not([alt]) {
+  filter: blur(5px) !important;
+}
+
+/* highlight on all elements that are inside of lists but not a list item <li> and displays them with a red outline */
+:is(ul, ol) > *:not(li) {
+  outline: $debug-outline-error;
+}
+
+/* highlight on links without valid href attribute */
+a:not([href]),
+a[href="#"],
+a[href=""],
+a[href^="javascript:"] {
+  outline: $debug-outline-error;
+}
+
+/* highlights label with invalid for attribute */
+label:not([for]):not(:has(input, select, textarea)),
+label[for="#"],
+label[for=""] {
+  outline: $debug-outline-error;
+}
+
+/* Avoids div buttons from hell. More details in https://www.htmhell.dev/2-div-with-button-role/ */
+[role="button"]:not(button, input) {
+  outline: $debug-outline-error;
+}
+
+/* highlight on empty anchors/buttons */
+button:empty:not([aria-label], [aria-labelledby]),
+a:empty:not([aria-label], [aria-labelledby]) {
+  outline: $debug-outline-error;
+}
+
+/* it's always nice to give <th> the `scope` attribute */
+th:not([scope]) {
+  outline: $debug-outline-alert;
+}
+
+/* forms require `action` attributes */
+form:not([action]) {
+  outline: $debug-outline-error;
+}
+
+form[action="#"] {
+  outline: $debug-outline-alert;
+}
+
+/* <input> needs a `type` attribute */
+input:not([type]) {
+  outline: $debug-outline-error;
+}

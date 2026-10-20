@@ -1,0 +1,70 @@
+:root {
+  // z-index
+  // --------------------------------------------------
+  --z-index-skip:              600;
+
+
+
+  // Grid system
+  // --------------------------------------------------
+  --grid-gutter-width:         24px;
+
+
+
+  // Fonts
+  // --------------------------------------------------
+  --font-family-base:          serif;
+
+
+
+  // Colors
+  // --------------------------------------------------
+  --text-color:                oklch(36.39% 0 0);
+  --link-color:                oklch(26.65% 0.155 264.01);
+  --color-black:               oklch(0% 0 0);
+  --color-white:               oklch(100% 0 0);
+
+
+
+  // Scrollbar
+  // --------------------------------------------------
+  --scrollbar-dimension:         .8rem;
+  --scrollbar-track-color:       transparent;
+  --scrollbar-thumb-color:       oklch(63.68% 0 0);
+  --scrollbar-radius:            .4rem;
+
+
+
+  // Outline
+  // --------------------------------------------------
+  --outline-width:               .25em;
+  --outline-offset:              .25em;
+
+
+
+  // Other
+  // --------------------------------------------------
+  --animation-speed:            .25s;
+}
+
+
+
+// Media queries breakpoints
+// --------------------------------------------------
+
+//
+// Define the breakpoints at which your layout will change, adapting to different screen sizes.
+//
+$grid-breakpoints: (
+  2xs:     0,
+  xxs:    30em, // 480px
+   xs:    36em, // 576px
+   sm:    40em, // 640px
+   md:    48em, // 768px
+   lg:    62em, // 992px
+   xl:    64em, // 1024px
+  2xl:    75em, // 1200px
+  3xl:    80em, // 1280px
+  4xl:    96em  // 1536px
+);
+

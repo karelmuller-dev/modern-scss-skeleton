@@ -1,0 +1,74 @@
+@use "../_abstracts/abstracts" as *;
+
+html, body {
+  scroll-padding-block-start: 5rem;
+}
+
+body {
+  accent-color: currentColor;
+  color: var(--text-color);
+  font-family: var(--font-family-base);
+
+  * {
+    &:focus-visible {
+      @include outline();
+    }
+  }
+}
+
+:where(
+  p,
+  table,
+  pre,
+  .wysiwyg-content ul,
+  .wysiwyg-content ol,
+  address,
+  .address,
+  .horizontal-scroll-container
+) {
+  margin-block-end: 1.5lh;
+}
+
+details {
+  &[open] {
+
+  }
+}
+
+summary {
+
+}
+
+[popover] {
+  @supports(position-area: block-end span-inline-end) {
+    position-area: block-end span-inline-end;
+  }
+
+  &::backdrop {
+
+  }
+}
+
+pre,
+code,
+kbd,
+samp {
+  @include scrollbar();
+
+  & {
+    font-family: monospace, monospace; /* Correct the inheritance and scaling of font size in all browsers. */
+    font-variant-numeric: slashed-zero;
+    overflow: auto;
+    tab-size: 4; /* Use a x-space tab width in all browsers (opinionated). */
+    white-space: pre-wrap;
+    word-wrap: normal;
+  }
+}
+
+code {
+  font-variant-numeric: slashed-zero;
+}
+
+.clearfix {
+  display: flow-root;
+}

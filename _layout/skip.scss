@@ -1,0 +1,39 @@
+@use "sass:map";
+@use "../_abstracts/abstracts" as *;
+
+.skip {
+  @include transition(transform);
+
+  & {
+    background: var(--color-white);
+    inline-size: 100%;
+    inset-inline: 0;
+    position: fixed;
+    text-align: center;
+    text-decoration: none;
+    transform: translate(0, -100%);
+    z-index: var(--zindex-skip);
+  }
+
+  &:focus-within {
+    transform: translate(0, 0);
+  }
+}
+
+.skip__list {
+
+}
+
+.skip__item {
+
+}
+
+.skip__link {
+    &:focus-within {
+      outline: 0;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+}

@@ -1,0 +1,89 @@
+@use "sass:map";
+@use "variables" as *;
+
+@mixin responsive-image() {
+  block-size: auto;
+  display: block;
+  inline-size: auto;
+  max-inline-size: 100%;
+  vertical-align: middle; /* Remove the gap between <img> elements and the bottom of their */
+}
+
+@mixin visually-hidden() {
+  block-size: 1px;
+  clip-path: inset(100%);
+  clip: rect(1px, 1px, 1px, 1px);
+  inline-size: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+}
+
+@mixin outline($color: currentColor, $colorOutline: currentColor, $width: var(--outline-width), $offset: var(--outline-offset)) {
+  color: $color;
+  outline: $width solid $colorOutline;
+  outline-offset: $offset;
+}
+
+@mixin transition($property: all) {
+  transition: $property var(--animation-speed) ease-in-out;
+}
+
+@mixin scrollbar($dimension: var(--scrollbar-dimension), $radius: var(--scrollbar-radius)) {
+  @supports (scrollbar-width: auto) {
+    scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color); /* thumb and track color */
+    scrollbar-width: auto; /* value: none, thin, auto */
+  }
+
+  &::-webkit-scrollbar {
+    -webkit-appearance: none;
+    block-size: $dimension;
+    inline-size: $dimension;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: $radius;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track-color);
+  }
+}
+
+
+
+// Media queries
+// --------------------------------------------------
+// @include screen(md) {} — od dané hranice nahoru
+@mixin screen($name) {
+  @if not map.has-key($grid-breakpoints, $name) {
+    @warn 'Invalid breakpoint: #{$name}.';
+  }
+  @media (width >= #{map.get($grid-breakpoints, $name)}) {
+    @content;
+  }
+}
+
+// @include screen-max(md) {} — pod danou hranici
+@mixin screen-max($name) {
+  @if not map.has-key($grid-breakpoints, $name) {
+    @warn 'Invalid breakpoint: #{$name}.';
+  }
+  @media (width < #{map.get($grid-breakpoints, $name)}) {
+    @content;
+  }
+}
+
+// @include screen-between(sm, md) {} — od dolní hranice (včetně) pod horní hranici
+@mixin screen-between($lower, $upper) {
+  @if not map.has-key($grid-breakpoints, $lower) {
+    @warn 'Invalid breakpoint: #{$lower}.';
+  }
+  @if not map.has-key($grid-breakpoints, $upper) {
+    @warn 'Invalid breakpoint: #{$upper}.';
+  }
+  @media (width >= #{map.get($grid-breakpoints, $lower)}) and (width < #{map.get($grid-breakpoints, $upper)}) {
+    @content;
+  }
+}

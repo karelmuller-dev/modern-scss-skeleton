@@ -1,0 +1,53 @@
+@use "../_abstracts/abstracts" as *;
+
+/* Hide content visually while keeping it accessible to assistive technologies */
+.sr-only,
+.visually-hidden,
+.visually-hidden-focusable:not(:focus):not(:focus-within) {
+  @include visually-hidden();
+}
+
+.relative {
+  position: relative;
+}
+
+.text-start {
+  text-align: start;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-end {
+  text-align: end;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.overflow-visible {
+  overflow: visible;
+}
+
+.inline {
+  display: inline;
+}
+
+.print {
+  display: none;
+}
+
+.hide,
+.hidden {
+  display: none;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.number {
+  font-variant-numeric: tabular-nums;
+}

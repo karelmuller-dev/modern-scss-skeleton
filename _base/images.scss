@@ -1,0 +1,30 @@
+@use "../_abstracts/abstracts" as *;
+
+.responsive-image {
+  @include responsive-image();
+}
+
+:where(img) {
+  /* Only render when in viewport */
+  //content-visibility: auto;
+
+  a & {
+    .wysiwyg-content & {
+      display: inline-flex;
+    }
+  }
+
+  #main & {
+    @include responsive-image();
+  }
+}
+
+:where(svg) {
+  block-size: 2.4rem;
+  fill: none;
+  fill-rule: evenodd;
+  inline-size: 2.4rem;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

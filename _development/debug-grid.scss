@@ -1,0 +1,70 @@
+@use "../_abstracts/abstracts" as *;
+@use "../_pages/variables" as *;
+
+$debug-grid-background: oklch(62.8% 0.258 29.23 / .15);
+$debug-grid-gutter-width: var(--grid-gutter-width);
+
+$debug-grid-container-max-widths: (
+  xs: 80ch
+);
+
+@mixin grid-before($columns, $gutter: $debug-grid-gutter-width) {
+  background-clip: content-box;
+  background-image: repeating-linear-gradient(to right,
+    #{$debug-grid-background} 0,
+    #{$debug-grid-background} calc(100% / #{$columns} - #{$gutter}),
+    transparent calc(100% / #{$columns} - #{$gutter}),
+    transparent calc(100% / #{$columns}));
+  background-origin: content-box;
+  background-size: calc(100% + #{$gutter}) 100%;
+  block-size: 100%;
+  content: "";
+  inline-size: 100%;
+  inset-inline-start: 0;
+  padding-inline: $gutter;
+  position: absolute;
+  z-index: -1;
+}
+
+@mixin horizontal-grid($height: .5rem) {
+  background-image: linear-gradient(to bottom, transparent 50%, $debug-grid-background 50%, $debug-grid-background 100%);
+  background-size: $height $height;
+}
+
+@mixin grid($columns: 12) {
+  position: relative;
+
+  &::before {
+    @include grid-before($columns);
+  }
+}
+
+@mixin make-container-max-widths($max-widths: $debug-grid-container-max-widths) {
+  @each $breakpoint, $container-max-width in $max-widths {
+    @include screen($breakpoint) {
+      max-inline-size: $container-max-width;
+    }
+  }
+}
+
+
+body {
+  background-color: transparent;
+  @include grid($columns: 12);
+  //@include horizontal-grid(1lh);
+
+  &::before {
+    @include make-container-max-widths();
+
+    inset-block-end: 0;
+    inset-block-start: 0;
+    inset-inline-start: 50%;
+    position: fixed;
+    transform: translateX(-50%);
+  }
+}
+
+.container {
+  //@include grid();
+  //@include horizontal-grid(1lh);
+}

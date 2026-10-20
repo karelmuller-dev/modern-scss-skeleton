@@ -1,0 +1,291 @@
+/*==========================================================================
+   #CT.CSS
+   ==========================================================================
+ */
+
+/*
+ * ct.css – Let’s take a look inside your <head>…
+ *
+ * © Harry Roberts 2021 – twitter.com/csswizardry
+ */
+
+
+
+/**
+ * It’s slightly easier to remember topics than it is colours. Set up some
+ * custom properties for use later on.
+ */
+
+head {
+  --ct-is-problematic: solid;
+  --ct-is-affected: dashed;
+  --ct-notify: oklch(74.63% 0.195 152.01);
+  --ct-warn: oklch(79.09% 0.171 70.15);
+  --ct-error: oklch(67.25% 0.215 28.2);
+}
+
+
+
+/**
+ * Show the <head> and set up the items we might be interested in.
+ */
+
+head,
+head script,
+head script[type]:not([type="text/javascript"]),
+head script:not([src])[async],
+head script:not([src])[defer],
+head style, head [rel="stylesheet"],
+head script ~ meta[http-equiv="content-security-policy"],
+head > meta[charset]:not(:nth-child(-n+5)) {
+  display: block;
+}
+
+head script,
+head style, head [rel="stylesheet"],
+head title,
+head script ~ meta[http-equiv="content-security-policy"],
+head > meta[charset]:not(:nth-child(-n+5)) {
+  background-color: oklch(100% 0 0);
+  border-width: 5px;
+  color: oklch(32.11% 0 0);
+  margin: 5px;
+  padding: 5px;
+}
+
+head ::before,
+head script, head style {
+  display: block;
+  font: 16px/1.5 monospace, monospace;
+}
+
+head ::before {
+  font-weight: bold;
+}
+
+
+
+/**
+ * External Script and Style
+ */
+
+head script[src],
+head link[rel="stylesheet"] {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+}
+
+head script[src]::before {
+  content: "[Blocking Script – " attr(src) "]"
+}
+
+head link[rel="stylesheet"]::before {
+  content: "[Blocking Stylesheet – " attr(href) "]"
+}
+
+
+
+/**
+ * Inline Script and Style.
+ */
+
+head style:not(:empty),
+head script:not(:empty) {
+  background-color: oklch(99.13% 0.044 107.18);
+  border-color: var(--ct-notify);
+  border-style: var(--ct-is-problematic);
+  max-height: 5em;
+  overflow: auto;
+  white-space: pre;
+}
+
+head script:not(:empty)::before {
+  content: "[Inline Script] ";
+}
+
+head style:not(:empty)::before {
+  content: "[Inline Style] ";
+}
+
+
+
+/**
+ * Blocked Title.
+ *
+ * These selectors are generally more complex because the Key Selector (`title`)
+ * depends on the specific conditions of preceding JS--we can’t cast a wide net
+ * and narrow it down later as we can when targeting elements directly.
+ */
+
+$ct-non-blocking-types:
+  "[type=module], [type=importmap], [type=speculationrules], " +
+  "[type='application/ld+json'], [type='application/json'], " +
+  "[type='text/template'], [type='text/x-template']";
+
+head script[src]:not([async]):not([defer]):not(:is(#{$ct-non-blocking-types})) ~ title,
+head script[type]:not([type="text/javascript"]):not(:is(#{$ct-non-blocking-types})) ~ title,
+head script:not(:empty):not(:is(#{$ct-non-blocking-types})) ~ title {
+  border-color: var(--ct-error);
+  border-style: var(--ct-is-affected);
+  display: block;
+}
+
+head script[src]:not([async]):not([defer]):not(:is(#{$ct-non-blocking-types})) ~ title::before,
+head script[type]:not([type="text/javascript"]):not(:is(#{$ct-non-blocking-types})) ~ title::before,
+head script:not(:empty):not(:is(#{$ct-non-blocking-types})) ~ title::before {
+  content: "[<title> blocked by JS] ";
+}
+
+
+
+/**
+ * Blocked Scripts.
+ *
+ * These selectors are generally more complex because the Key Selector
+ * (`script`) depends on the specific conditions of preceding CSS--we can’t cast
+ * a wide net and narrow it down later as we can when targeting elements
+ * directly.
+ */
+
+head [rel="stylesheet"]:not([media="print"]):not(.ct) ~ script,
+head style:not(:empty) ~ script {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-affected);
+}
+
+head [rel="stylesheet"]:not([media="print"]):not(.ct) ~ script::before,
+head style:not(:empty) ~ script::before {
+  content: "[JS blocked by CSS – " attr(src) "]";
+}
+
+
+
+/**
+ * Using both `async` and `defer` is redundant (an anti-pattern, even). Let’s
+ * flag that.
+ */
+
+head script[src][src][async][defer] {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+  display: block;
+}
+
+head script[src][src][async][defer]::before {
+  content: "[async and defer is redundant: prefer defer – " attr(src) "]";
+}
+
+
+
+/**
+ * Async and defer simply do not work on inline scripts. It won’t do any harm,
+ * but it’s useful to know about.
+ */
+head script:not([src])[async],
+head script:not([src])[defer] {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+}
+
+head script:not([src])[async]::before {
+  content: "[The async attribute is redundant on inline scripts]"
+}
+
+head script:not([src])[defer]::before {
+  content: "[The defer attribute is redundant on inline scripts]"
+}
+
+
+
+/**
+ * Supplying a character encoding for scripts is invalid and may pervert the
+ * script from loading.
+ */
+head script[type*="charset"] {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+}
+
+head script[type*="charset"]::before {
+  content: "[charset on scripts may prevent script from loading]"
+}
+
+head script[type="text/javascript"] {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+}
+
+head script[type="text/javascript"]::before {
+  content: "[" attr(type) " is redundant: you might as well delete it]"
+}
+
+
+
+/**
+ * Third Party blocking resources.
+ *
+ * Expect false-positives here… it’s a crude proxy at best.
+ *
+ * Selector-chaining (e.g. `[src][src]`) is used to bump up specificity.
+ */
+
+head script[src][src][src^="//"],
+head script[src][src][src^="http"],
+head [rel="stylesheet"][href^="//"],
+head [rel="stylesheet"][href^="http"] {
+  border-color: var(--ct-error);
+  border-style: var(--ct-is-problematic);
+}
+
+head script[src][src][src^="//"]::before,
+head script[src][src][src^="http"]::before {
+  content: "[Third Party Blocking Script – " attr(src) "]";
+}
+
+head [rel="stylesheet"][href^="//"]::before,
+head [rel="stylesheet"][href^="http"]::before {
+  content: "[Third Party Blocking Stylesheet – " attr(href) "]";
+}
+
+
+
+/**
+ * Mid-HEAD CSP disables the Preload Scanner
+ */
+
+head script ~ meta[http-equiv="content-security-policy"] {
+  border-color: var(--ct-error);
+  border-style: var(--ct-is-problematic);
+}
+
+head script ~ meta[http-equiv="content-security-policy"]::before {
+  content: "[Meta CSP defined after JS]"
+}
+
+
+
+/**
+ * Charset should appear as early as possible
+ */
+head > meta[charset]:not(:nth-child(-n+5)) {
+  border-color: var(--ct-warn);
+  border-style: var(--ct-is-problematic);
+}
+
+head > meta[charset]:not(:nth-child(-n+5))::before {
+  content: "[Charset should appear as early as possible]";
+}
+
+
+
+/**
+ * Hide all irrelevant or non-matching scripts and styles (including ct.css).
+ *
+ * We’re done!
+ */
+
+head link[rel="stylesheet"][media="print"],
+head link[rel="stylesheet"].ct, head style.ct,
+head script[async], head script[defer], head script[type=module], head script[type]:not([type="text/javascript"]) {
+  display: none;
+}

@@ -1,0 +1,105 @@
+:where(input) {
+  &:not([type="submit"], [type="checkbox"], [type="radio"], [type="button"], [type="reset"]) {
+    inline-size: 100%;
+  }
+}
+
+input:where([type="tel"], [type="url"], [type="email"], [type="number"]):not(:placeholder-shown) {
+  direction: ltr;
+}
+
+:where(input, textarea, button, select) {
+  //appearance: none; /* Remove controls */
+  background-color: transparent;
+  color: currentColor;
+  font: inherit;
+  letter-spacing: inherit;
+  word-spacing: inherit;
+}
+
+:where(input, textarea) {
+  hanging-punctuation: none;
+}
+
+:where(textarea) {
+  field-sizing: content;
+  form-sizing: auto; /* https://geoffgraham.me/the-csswg-adopted-a-new-css-form-sizing-property/ */
+  inline-size: 100%;
+  min-block-size: 5lh;
+  overflow: auto;
+  resize: vertical;
+}
+
+:where(select) {
+  //appearance: none; /* Remove controls */
+  //background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTYgOUwxMiAxNUwxOCA5IiBzdHJva2U9IiMwMDJDNEMiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiAvPgo8L3N2Zz4K);
+  //background-position: calc(100% - 1.6rem) 1.2rem;
+  //background-repeat: no-repeat;
+  //field-sizing: content;
+  //padding-inline-end: 5rem;
+}
+
+:where(button) {
+  //appearance: button; /* Correct the inability to style clickable types in iOS and Safari */
+
+  &:focus-within {
+    //appearance: button; /* Correct the inability to style clickable types in iOS and Safari. */
+  }
+}
+
+[type=radio],
+[type=checkbox] {
+  //appearance: none; /* Remove controls - odstranění pro případ vlastního designu */
+}
+
+/* input[type="number"] */
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+  //appearance: none; /* Remove controls from Safari and Chrome */
+  //height: auto; /* Correct the cursor style of increment and decrement buttons in Chrome */
+  margin-inline-start: 1rem; /* Removes leftover margin */
+}
+
+/* input[type="search"] */
+::-webkit-search-cancel-button,
+::-webkit-search-decoration,
+::-webkit-search-results-button,
+::-webkit-search-results-decoration {
+  //appearance: none; /* Remove controls from Safari and Chrome */
+  margin: 1rem;
+}
+
+/* [type="file"] - design buttonu pro vložení souboru */
+::file-selector-button {
+  //appearance: button;
+  cursor: pointer;
+}
+
+/* input[type="date"], input[type="datetime-local"], input[type="time"], … */
+::-webkit-datetime-edit-fields-wrapper,
+::-webkit-datetime-edit-text,
+::-webkit-datetime-edit-minute,
+::-webkit-datetime-edit-hour-field,
+::-webkit-datetime-edit-day-field,
+::-webkit-datetime-edit-month-field,
+::-webkit-datetime-edit-year-field {
+
+}
+
+[disabled] {
+  opacity: .5;
+  pointer-events: none;
+}
+
+::placeholder {
+
+}
+
+fieldset {
+  /*
+     * Browsers set a default `min-width: min-content;` on fieldsets,
+     * unlike e.g. `<div>`s, which have `min-width: 0;` by default.
+     * So we reset that to ensure fieldsets behave more like a standard block element.
+     */
+  min-inline-size: 0;
+}
